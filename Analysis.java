@@ -21,6 +21,14 @@ public class Analysis {
       + seconds + " sec";
   }
 
+  private static long getMode(ArrayList<Long> list, int sigFig) {
+    ArrayList<Integer> freq = new ArrayList<Integer>(list.size());
+    for (int i=0; i<list.size(); i++) {
+     // map 
+    }
+    return 0;
+  }
+
   private static void printAnalysis(ArrayList<LocalDateTime> t) {
     Collections.sort(t);
     System.out.print("\nPhoto count:\t"+t.size());
@@ -34,7 +42,7 @@ public class Analysis {
     long sum=0;
     long max=0;
     long min = ChronoUnit.SECONDS.between(t.get(0),t.get(1));
-    ArrayList<Long> durations = new ArrayList<Long>();
+    ArrayList<Long> durations = new ArrayList<Long>(t.size());
     for (int i=0; i<t.size()-1; i++) {
       sec = ChronoUnit.SECONDS.between(t.get(i),t.get(i+1));
       sum += sec;
@@ -56,6 +64,15 @@ public class Analysis {
 //    System.out.print("\nvar:\t"+var/t.size());
     System.out.print("\nsd:\t\u03C3="
       + formatSeconds(new BigDecimal(sd).longValue()));
+    System.out.print("\n");
+
+    long totalTrip = ChronoUnit.SECONDS.between(t.get(0),t.get(t.size()-1));
+    System.out.print("\nSlideshow length\t"
+      + formatSeconds(totalTrip*1/mean) + "\nwith time scale\t\t"
+      + formatSeconds(mean) + " to " + formatSeconds(1)
+    );
+
+
     System.out.print("\n");
     System.out.print("\n\tPhoto\tTimestamp\t\tdeviation\tduration to next photo");
     double duration = 0;
@@ -79,7 +96,7 @@ public class Analysis {
     ArrayList<LocalDateTime> timestamps = new ArrayList<LocalDateTime>();
     String pattern = "yyyy:MM:dd HH:mm:ss";
     try {
-      buffer = new BufferedReader(new FileReader("timestamps.dat"));
+      buffer = new BufferedReader(new FileReader("2015AT-timestamps.dat"));
       while ((line=buffer.readLine()) != null) {
         timestamps.add(LocalDateTime.parse(line, DateTimeFormatter.ofPattern(pattern)));
       }
